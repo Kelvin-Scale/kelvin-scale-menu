@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelvin Scale | Menu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="top">
+    <div class="brand">
+        <img src="images/logo.png" alt="Kelvin Scale Logo">
+        <div>
+            <h1>Kelvin Scale</h1>
+            <p>Absolute Icecream</p>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <span>WELCOME TO</span>
+    <h2>Kelvin Scale</h2>
+    <p>Scoop happiness, one bite at a time.</p>
+</section>
+
+<nav class="categories">
+    <a href="#icecream">🍦 Ice Cream</a>
+    <a href="#shakes">🥤 Shakes</a>
+    <a href="#waffles">🧇 Waffles</a>
+    <a href="#sundaes">🍨 Sundaes</a>
+    <a href="#snacks">🍟 Snacks</a>
+</nav>
+
+<main>
+
+<!-- ICE CREAM -->
+<section id="icecream" class="section">
+    <div class="title">
+        <span>🍦</span>
+        <div>
+            <small>CHILLED & CREAMY</small>
+            <h2>Ice Creams</h2>
+        </div>
+    </div>
+
+    <div class="ice-card">
+        <div>
+            <h3>Single Scoop</h3>
+            <p>Choose your favourite flavour</p>
+        </div>
+        <strong>₹95+</strong>
+    </div>
+
+    <div class="sub-grid">
+
+        
+        <div class="price-card">
+            <small>WEIGHT BASED</small>
+            <h3>Normal - 100GM</h3>
+            <strong>₹114</strong>
+        </div>
+
+        <div class="price-card premium">
+            <small>WEIGHT BASED</small>
+            <h3>Premium - 100GM</h3>
+            <strong>₹142</strong>
+            <label>PREMIUM</label>
+        </div>
+        <!-- LIVE ICE CREAM FLAVOURS -->
+<div class="flavour-menu">
+
+    <div class="flavour-group">
+        <div class="flavour-heading">
+            <span>🍦</span>
+            <div>
+                <small>NORMAL</small>
+                <h3>Normal Ice Creams</h3>
+            </div>
+        </div>
+
+        <div id="normalFlavours" class="flavour-list">
+            <p class="loading">Loading flavours...</p>
+        </div>
+    </div>
+
+
+    <div class="flavour-group premium-group">
+        <div class="flavour-heading">
+            <span>✨</span>
+            <div>
+                <small>PREMIUM</small>
+                <h3>Premium Ice Creams</h3>
+            </div>
+        </div>
+
+        <div id="premiumFlavours" class="flavour-list">
+            <p class="loading">Loading flavours...</p>
+        </div>
+    </div>
+
+</div>
+</section>
+
+
+<!-- ICE CREAM CAKES -->
+<section class="section" id="cakes">
+
+    <div class="title">
+        <span>🎂</span>
+        <div>
+            <small>NATURAL</small>
+            <h2>Ice Cream Cakes</h2>
+        </div>
+    </div>
+
+    <div class="cake-card">
+
+        <!-- THREE PRICE HEADINGS -->
+        <div class="cake-header">
+            <div class="cake-name-header">Cake</div>
+            <div>SLICE</div>
+            <div>600GM</div>
+            <div>1100GM</div>
+        </div>
+
+        <!-- Death By Chocolate -->
+        <div class="cake-row">
+            <div class="cake-name">Death By Chocolate</div>
+            <div>₹135</div>
+            <div>₹749</div>
+            <div>₹1299</div>
+        </div>
+
+        <!-- Biscoff -->
+        <div class="cake-row">
+            <div class="cake-name">Biscoff</div>
+            <div>₹159</div>
+            <div>₹899</div>
+            <div>₹1499</div>
+        </div>
+
+        <!-- Black Forest -->
+        <div class="cake-row">
+            <div class="cake-name">Black Forest</div>
+            <div>₹135</div>
+            <div>₹749</div>
+            <div>₹1299</div>
+        </div>
+
+        <!-- Red Velvet -->
+        <div class="cake-row">
+            <div class="cake-name">Red Velvet</div>
+            <div>₹135</div>
+            <div>₹749</div>
+            <div>₹1299</div>
+        </div>
+
+        <!-- Anjeer Almond -->
+        <div class="cake-row">
+            <div class="cake-name">Anjeer Almond</div>
+            <div>₹135</div>
+            <div>₹749</div>
+            <div>₹1299</div>
+        </div>
+
+        <!-- Ferrero Rocher -->
+        <div class="cake-row">
+            <div class="cake-name">Ferrero Rocher</div>
+            <div>₹159</div>
+            <div>₹899</div>
+            <div>₹1499</div>
+        </div>
+
+        <!-- Kitkat -->
+        <div class="cake-row">
+            <div class="cake-name">Kitkat</div>
+            <div>₹159</div>
+            <div>₹899</div>
+            <div>₹1499</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MILKSHAKES -->
+<section id="shakes" class="section">
+
+    <div class="title">
+        <span>🥤</span>
+        <div>
+            <small>RICH & CREAMY</small>
+            <h2>Shakes</h2>
+        </div>
+    </div>
+
+    <div class="menu-list">
+
+        <div class="item">
+            <h3>Belgium Bang</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹159</b></span>
+                <span><small>Thickshake</small><b>₹189</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Blueberry</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Peach</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Cookies n Cream</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹139</b></span>
+                <span><small>Thickshake</small><b>₹179</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Oreo Delight</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Sherry Berry</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Lychee</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Passion Fruit Punch</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Raspberry</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Yummy Mango</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+        <div class="item">
+            <h3>Kitkat Candy</h3>
+            <div class="prices">
+                <span><small>Milkshake</small><b>₹169</b></span>
+                <span><small>Thickshake</small><b>₹199</b></span>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- WAFFLES -->
+<section id="waffles" class="section">
+    <div class="title">
+        <span>🧇</span>
+        <div>
+            <small>CRISPY & DELICIOUS</small>
+            <h2>Waffles</h2>
+        </div>
+    </div>
+
+    <div class="menu-list single">
+
+        <div class="item"><h3>Traditional - Simple Caramel</h3><b>₹109</b></div>
+        <div class="item"><h3>Honey</h3><b>₹109</b></div>
+        <div class="item"><h3>Belgian Chocolate Milk</h3><b>₹139</b></div>
+        <div class="item"><h3>Belgian Chocolate Dark</h3><b>₹139</b></div>
+        <div class="item"><h3>Belgian Chocolate White</h3><b>₹139</b></div>
+        <div class="item"><h3>Night & Day</h3><b>₹149</b></div>
+        <div class="item"><h3>Nutella</h3><b>₹169</b></div>
+        <div class="item"><h3>Red Velvet</h3><b>₹179</b></div>
+        <div class="item"><h3>Oreo White Chocolate</h3><b>₹179</b></div>
+        <div class="item"><h3>Kitkat</h3><b>₹179</b></div>
+        <div class="item"><h3>Dairy Milk</h3><b>₹179</b></div>
+        <div class="item"><h3>5 Star</h3><b>₹179</b></div>
+        <div class="item"><h3>Bounty</h3><b>₹179</b></div>
+        <div class="item"><h3>Sandwich</h3><b>₹189</b></div>
+        <div class="item"><h3>Biscoff</h3><b>₹199</b></div>
+
+    </div>
+</section>
+
+
+<!-- SUNDAES -->
+<section id="sundaes" class="section">
+    <div class="title">
+        <span>🍨</span>
+        <div>
+            <small>EVERYDAY FEELS LIKE</small>
+            <h2>Sundaes</h2>
+        </div>
+    </div>
+
+    <div class="menu-list single">
+
+        <div class="item"><h3>Choco Man</h3><b>₹149</b></div>
+        <div class="item"><h3>Fruity Ride</h3><b>₹189</b></div>
+        <div class="item"><h3>Junior DBC</h3><b>₹189</b></div>
+        <div class="item"><h3>All in One Couple</h3><b>₹199</b></div>
+        <div class="item"><h3>Luxury of Lychee</h3><b>₹199</b></div>
+        <div class="item"><h3>Cookie Monster</h3><b>₹199</b></div>
+        <div class="item"><h3>Good Old Banana</h3><b>₹199</b></div>
+        <div class="item"><h3>Cake to the Rescue</h3><b>₹199</b></div>
+        <div class="item"><h3>Hot Chocolate Fudge</h3><b>₹199</b></div>
+        <div class="item"><h3>Power Pack Special</h3><b>₹209</b></div>
+        <div class="item"><h3>Drink of Mughals</h3><b>₹209</b></div>
+        <div class="item"><h3>Fudged and Bowled</h3><b>₹219</b></div>
+        <div class="item"><h3>Dry Fruits Falooda</h3><b>₹219</b></div>
+        <div class="item"><h3>Sizzling Lady</h3><b>₹259</b></div>
+        <div class="item"><h3>Old Time Sake</h3><b>₹259</b></div>
+
+    </div>
+</section>
+
+
+<!-- SNACKS -->
+<section id="snacks" class="section">
+    <div class="title">
+        <span>🍟</span>
+        <div>
+            <small>QUICK BITES</small>
+            <h2>Snacks</h2>
+        </div>
+    </div>
+
+    <div class="snack-card">
+        <h3>Classic Salted Fries</h3>
+        <div class="sizes">
+            <span>Regular <b>₹110</b></span>
+            <span>Medium <b>₹130</b></span>
+            <span>Large <b>₹130</b></span>
+        </div>
+    </div>
+
+    <div class="snack-card">
+        <h3>Piri Piri Fries</h3>
+        <div class="sizes">
+            <span>Regular <b>₹120</b></span>
+            <span>Medium <b>₹140</b></span>
+            <span>Large <b>₹140</b></span>
+        </div>
+    </div>
+
+    <div class="snack-card">
+        <h3>Chilli Garlic Potato Pops</h3>
+        <div class="sizes">
+            <span>Regular <b>₹130</b></span>
+            <span>Large <b>₹170</b></span>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <img src="images/logo.png" alt="Kelvin Scale">
+    <h2>Kelvin Scale</h2>
+    <p>Absolute Icecream</p>
+    <small>Thank you for visiting 💙</small>
+</footer>
+
+
+<script>
+    const FLAVOUR_API =
+    "https://kelvin-scale-backend.onrender.com/api/flavours/available";
+
+
+    async function loadIceCreamFlavours() {
+
+        const normalContainer =
+            document.getElementById("normalFlavours");
+
+        const premiumContainer =
+            document.getElementById("premiumFlavours");
+
+
+        if (!normalContainer || !premiumContainer) {
+            console.error(
+                "Flavour containers not found."
+            );
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(FLAVOUR_API);
+
+
+            if (!response.ok) {
+                throw new Error(
+                    "Failed to load flavours"
+                );
+            }
+
+
+            const flavours =
+                await response.json();
+
+
+            normalContainer.innerHTML = "";
+
+            premiumContainer.innerHTML = "";
+
+
+            /*
+             * NORMAL FLAVOURS
+             */
+
+            const normalFlavours =
+                flavours.filter(
+                    flavour =>
+                        flavour.category === "normal"
+                );
+
+
+            /*
+             * PREMIUM FLAVOURS
+             */
+
+            const premiumFlavours =
+                flavours.filter(
+                    flavour =>
+                        flavour.category === "premium"
+                );
+
+
+            /*
+             * DISPLAY NORMAL
+             */
+
+            normalFlavours.forEach(
+                flavour => {
+
+                    const item =
+                        document.createElement("div");
+
+
+                    item.className =
+                        "flavour-item";
+
+
+                    item.textContent =
+                        flavour.name;
+
+
+                    normalContainer.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+
+            /*
+             * DISPLAY PREMIUM
+             */
+
+            premiumFlavours.forEach(
+                flavour => {
+
+                    const item =
+                        document.createElement("div");
+
+
+                    item.className =
+                        "flavour-item";
+
+
+                    item.textContent =
+                        flavour.name;
+
+
+                    premiumContainer.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+
+            /*
+             * IF NO NORMAL FLAVOURS
+             */
+
+            if (
+                normalFlavours.length === 0
+            ) {
+
+                normalContainer.innerHTML =
+                    `
+                    <p class="empty-message">
+                        No normal flavours available.
+                    </p>
+                    `;
+
+            }
+
+
+            /*
+             * IF NO PREMIUM FLAVOURS
+             */
+
+            if (
+                premiumFlavours.length === 0
+            ) {
+
+                premiumContainer.innerHTML =
+                    `
+                    <p class="empty-message">
+                        No premium flavours available.
+                    </p>
+                    `;
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Flavour loading error:",
+                error
+            );
+
+
+            normalContainer.innerHTML =
+                `
+                <p class="empty-message">
+                    Flavours unavailable.
+                </p>
+                `;
+
+
+            premiumContainer.innerHTML =
+                `
+                <p class="empty-message">
+                    Flavours unavailable.
+                </p>
+                `;
+
+        }
+
+    }
+
+
+    /*
+     * LOAD FLAVOURS WHEN MENU OPENS
+     */
+
+loadIceCreamFlavours();
+
+setInterval(() => {
+    loadIceCreamFlavours();
+}, 10000);
+</script>
+
+</body>
+</html>
