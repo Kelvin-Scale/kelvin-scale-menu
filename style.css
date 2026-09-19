@@ -853,3 +853,251 @@ footer small {
 #cakes {
     margin-bottom: 80px;
 }
+
+/* =========================================
+   LIVE ICE CREAM FLAVOURS
+   SAME DESIGN AS EXISTING MENU
+========================================= */
+
+.flavour-section {
+    margin-top: 35px;
+    margin-bottom: 65px;
+    scroll-margin-top: 150px;
+}
+
+
+/* =========================================
+   FLAVOUR SECTION HEADING
+========================================= */
+
+.flavour-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 21px;
+}
+
+.flavour-heading > span {
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    background: #e6f6fd;
+
+    border-radius: 15px;
+
+    font-size: 25px;
+
+    box-shadow: inset 0 0 0 1px #d8edf6;
+}
+
+.flavour-heading div {
+    display: flex;
+    flex-direction: column;
+}
+
+.flavour-heading small {
+    display: block;
+
+    color: #0791cc;
+
+    font-family: "DM Sans", Arial, sans-serif;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 2px;
+}
+
+.flavour-heading h2 {
+    margin: 0;
+
+    color: #154a70;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 29px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================
+   FLAVOUR CONTAINER
+========================================= */
+
+.flavour-container {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 11px;
+}
+
+
+/* =========================================
+   FLAVOUR CARD
+========================================= */
+
+.flavour-item {
+    background: white;
+
+    border: 1px solid #dfedf4;
+
+    box-shadow: 0 7px 22px rgba(7, 91, 139, 0.06);
+
+    min-height: 75px;
+
+    padding: 14px 15px;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    color: #193f60;
+
+    font-family: "DM Sans", Arial, sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    transition: 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   FLAVOUR HOVER
+========================================= */
+
+.flavour-item:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(7, 91, 139, 0.10);
+}
+
+
+/* =========================================
+   PREMIUM FLAVOURS
+========================================= */
+
+.premium-item {
+    background: #f8fcfe;
+}
+
+
+/* =========================================
+   EMPTY MESSAGE
+========================================= */
+
+.empty-message {
+    grid-column: 1 / -1;
+
+    background: white;
+
+    border: 1px solid #dfedf4;
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    color: #7890a0;
+
+    font-family: "DM Sans", Arial, sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .flavour-section {
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
+
+    .flavour-heading {
+        gap: 11px;
+
+        margin-bottom: 18px;
+    }
+
+    .flavour-heading > span {
+        width: 44px;
+        height: 44px;
+
+        border-radius: 14px;
+
+        font-size: 23px;
+    }
+
+    .flavour-heading small {
+        font-size: 8px;
+
+        letter-spacing: 1.7px;
+    }
+
+    .flavour-heading h2 {
+        font-size: 25px;
+    }
+
+    .flavour-container {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+    .flavour-item {
+        min-height: 72px;
+
+        padding: 14px;
+
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .flavour-heading h2 {
+        font-size: 23px;
+    }
+
+    .flavour-item {
+        min-height: 68px;
+
+        padding: 13px;
+
+        font-size: 13px;
+    }
+}

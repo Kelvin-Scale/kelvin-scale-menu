@@ -407,194 +407,195 @@
     "https://kelvin-scale-backend.onrender.com/api/flavours/available";
 
 
-    async function loadIceCreamFlavours() {
+async function loadIceCreamFlavours() {
 
-        const normalContainer =
-            document.getElementById("normalFlavours");
+    const normalContainer =
+        document.getElementById("normalFlavours");
 
-        const premiumContainer =
-            document.getElementById("premiumFlavours");
-
-
-        if (!normalContainer || !premiumContainer) {
-            console.error(
-                "Flavour containers not found."
-            );
-            return;
-        }
+    const premiumContainer =
+        document.getElementById("premiumFlavours");
 
 
-        try {
-
-            const response =
-                await fetch(FLAVOUR_API);
-
-
-            if (!response.ok) {
-                throw new Error(
-                    "Failed to load flavours"
-                );
-            }
-
-
-            const flavours =
-                await response.json();
-
-
-            normalContainer.innerHTML = "";
-
-            premiumContainer.innerHTML = "";
-
-
-            /*
-             * NORMAL FLAVOURS
-             */
-
-            const normalFlavours =
-                flavours.filter(
-                    flavour =>
-                        flavour.category === "normal"
-                );
-
-
-            /*
-             * PREMIUM FLAVOURS
-             */
-
-            const premiumFlavours =
-                flavours.filter(
-                    flavour =>
-                        flavour.category === "premium"
-                );
-
-
-            /*
-             * DISPLAY NORMAL
-             */
-
-            normalFlavours.forEach(
-                flavour => {
-
-                    const item =
-                        document.createElement("div");
-
-
-                    item.className =
-                        "flavour-item";
-
-
-                    item.textContent =
-                        flavour.name;
-
-
-                    normalContainer.appendChild(
-                        item
-                    );
-
-                }
-            );
-
-
-            /*
-             * DISPLAY PREMIUM
-             */
-
-            premiumFlavours.forEach(
-                flavour => {
-
-                    const item =
-                        document.createElement("div");
-
-
-                    item.className =
-                        "flavour-item";
-
-
-                    item.textContent =
-                        flavour.name;
-
-
-                    premiumContainer.appendChild(
-                        item
-                    );
-
-                }
-            );
-
-
-            /*
-             * IF NO NORMAL FLAVOURS
-             */
-
-            if (
-                normalFlavours.length === 0
-            ) {
-
-                normalContainer.innerHTML =
-                    `
-                    <p class="empty-message">
-                        No normal flavours available.
-                    </p>
-                    `;
-
-            }
-
-
-            /*
-             * IF NO PREMIUM FLAVOURS
-             */
-
-            if (
-                premiumFlavours.length === 0
-            ) {
-
-                premiumContainer.innerHTML =
-                    `
-                    <p class="empty-message">
-                        No premium flavours available.
-                    </p>
-                    `;
-
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Flavour loading error:",
-                error
-            );
-
-
-            normalContainer.innerHTML =
-                `
-                <p class="empty-message">
-                    Flavours unavailable.
-                </p>
-                `;
-
-
-            premiumContainer.innerHTML =
-                `
-                <p class="empty-message">
-                    Flavours unavailable.
-                </p>
-                `;
-
-        }
-
+    if (!normalContainer || !premiumContainer) {
+        console.error("Flavour containers not found.");
+        return;
     }
 
 
-    /*
-     * LOAD FLAVOURS WHEN MENU OPENS
-     */
+    try {
+
+        const response =
+            await fetch(FLAVOUR_API);
+
+
+        if (!response.ok) {
+            throw new Error("Failed to load flavours");
+        }
+
+
+        const flavours =
+            await response.json();
+
+
+        normalContainer.innerHTML = "";
+        premiumContainer.innerHTML = "";
+
+
+        /*
+         * NORMAL FLAVOURS
+         */
+
+        const normalFlavours =
+            flavours.filter(
+                flavour =>
+                    flavour.category === "normal" &&
+                    flavour.available === true
+            );
+
+
+        /*
+         * PREMIUM FLAVOURS
+         */
+
+        const premiumFlavours =
+            flavours.filter(
+                flavour =>
+                    flavour.category === "premium" &&
+                    flavour.available === true
+            );
+
+
+        /*
+         * DISPLAY NORMAL
+         */
+
+        normalFlavours.forEach(
+            flavour => {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "flavour-item";
+
+                item.innerHTML = `
+
+                    <div class="flavour-details">
+
+                        <h4>${flavour.name}</h4>
+
+                        <small>NORMAL</small>
+
+                    </div>
+
+                `;
+
+                normalContainer.appendChild(item);
+
+            }
+        );
+
+
+        /*
+         * DISPLAY PREMIUM
+         */
+
+        premiumFlavours.forEach(
+            flavour => {
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "flavour-item premium-item";
+
+                item.innerHTML = `
+
+                    <div class="flavour-details">
+
+                        <h4>${flavour.name}</h4>
+
+                        <small>PREMIUM</small>
+
+                    </div>
+
+                `;
+
+                premiumContainer.appendChild(item);
+
+            }
+        );
+
+
+        /*
+         * IF NO NORMAL FLAVOURS
+         */
+
+        if (normalFlavours.length === 0) {
+
+            normalContainer.innerHTML = `
+                <p class="empty-message">
+                    No normal flavours available.
+                </p>
+            `;
+
+        }
+
+
+        /*
+         * IF NO PREMIUM FLAVOURS
+         */
+
+        if (premiumFlavours.length === 0) {
+
+            premiumContainer.innerHTML = `
+                <p class="empty-message">
+                    No premium flavours available.
+                </p>
+            `;
+
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Flavour loading error:",
+            error
+        );
+
+        normalContainer.innerHTML = `
+            <p class="empty-message">
+                Flavours unavailable.
+            </p>
+        `;
+
+        premiumContainer.innerHTML = `
+            <p class="empty-message">
+                Flavours unavailable.
+            </p>
+        `;
+
+    }
+
+}
+
+
+/*
+ * LOAD FLAVOURS WHEN MENU OPENS
+ */
 
 loadIceCreamFlavours();
+
+
+/*
+ * CHECK ADMIN CHANGES EVERY 10 SECONDS
+ */
 
 setInterval(() => {
     loadIceCreamFlavours();
 }, 10000);
+
 </script>
 
 </body>
