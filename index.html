@@ -1310,283 +1310,311 @@ async function loadIceCreamFlavours() {
 
 
         /* =====================================
-           DISPLAY NORMAL FLAVOURS
+           CREATE FLAVOUR CARD
+        ===================================== */
+
+        function createFlavourCard(
+            flavourList,
+            categoryName
+        ) {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "cake-card";
+
+
+            /* =================================
+               HEADER
+            ================================= */
+
+            const header =
+                document.createElement("div");
+
+
+            header.className =
+                "cake-header";
+
+
+            header.innerHTML = `
+
+                <div class="cake-name-header">
+                    FLAVOUR
+                </div>
+
+                <div>
+                    TYPE
+                </div>
+
+                <div>
+                    WEIGHT
+                </div>
+
+                <div>
+                    ORDER
+                </div>
+
+            `;
+
+
+            card.appendChild(header);
+
+
+            /* =================================
+               FLAVOUR ROWS
+            ================================= */
+
+           flavourList.forEach(flavour => {
+
+    const row = document.createElement("div");
+
+    row.className = "cake-row";
+
+    const rate =
+        categoryName === "PREMIUM"
+            ? 1.42
+            : 1.14;
+
+    row.innerHTML = `
+
+        <div class="cake-name">
+            ${flavour.name}
+        </div>
+
+        <div>
+            ${categoryName}
+        </div>
+
+        <div>
+
+            <div class="weight-input-wrapper">
+
+                <input
+                    type="number"
+                    class="flavour-weight"
+                    min="1"
+                    max="1000"
+                    step="1"
+                    value="100"
+                    aria-label="Weight in grams"
+                >
+
+                <span>g</span>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="flavour-price">
+                ₹${(100 * rate).toFixed(2)}
+            </div>
+
+            <button
+                type="button"
+                class="flavour-order-btn"
+            >
+                ADD
+            </button>
+
+        </div>
+
+    `;
+
+
+    const weightInput =
+        row.querySelector(".flavour-weight");
+
+    const priceDisplay =
+        row.querySelector(".flavour-price");
+
+
+    /* ================================
+       LIVE PRICE CALCULATION
+    ================================= */
+
+    weightInput.addEventListener(
+        "input",
+        () => {
+
+            let weight =
+                Number(weightInput.value);
+
+            if (weight < 1) {
+                weight = 1;
+            }
+
+            if (weight > 1000) {
+                weight = 1000;
+            }
+
+            weightInput.value = weight;
+
+            const price =
+                weight * rate;
+
+            priceDisplay.textContent =
+                `₹${price.toFixed(2)}`;
+
+        }
+    );
+
+
+    /* ================================
+       ADD TO CART
+    ================================= */
+
+    const orderButton =
+        row.querySelector(".flavour-order-btn");
+
+
+    orderButton.addEventListener(
+        "click",
+        () => {
+
+            const weight =
+                Number(weightInput.value);
+
+
+            if (
+                !Number.isInteger(weight) ||
+                weight < 1 ||
+                weight > 1000
+            ) {
+
+                alert(
+                    "Please enter a weight between 1g and 1000g."
+                );
+
+                weightInput.focus();
+
+                return;
+
+            }
+
+
+            const price =
+                weight * rate;
+
+
+            const orderItem = {
+
+                id: flavour.id,
+
+                name: flavour.name,
+
+                category: categoryName,
+
+                weight: weight,
+
+                unit: "g",
+
+                rate: rate,
+
+                price: Number(
+                    price.toFixed(2)
+                )
+
+            };
+
+
+            console.log(
+                "Order item:",
+                orderItem
+            );
+
+
+            alert(
+                `${flavour.name}\n` +
+                `${weight}g\n` +
+                `₹${price.toFixed(2)}`
+            );
+
+        }
+    );
+
+
+    card.appendChild(row);
+
+});
+
+
+            /* =================================
+               NO FLAVOURS
+            ================================= */
+
+            if (flavourList.length === 0) {
+
+                const row =
+                    document.createElement("div");
+
+
+                row.className =
+                    "cake-row";
+
+
+                row.innerHTML = `
+
+                    <div class="cake-name">
+                        No ${categoryName.toLowerCase()}
+                        flavours available.
+                    </div>
+
+                    <div>
+                        ${categoryName}
+                    </div>
+
+                    <div>
+                        —
+                    </div>
+
+                    <div>
+                        —
+                    </div>
+
+                `;
+
+
+                card.appendChild(row);
+
+            }
+
+
+            return card;
+
+        }
+
+
+        /* =====================================
+           DISPLAY NORMAL
         ===================================== */
 
         normalContainer.innerHTML = "";
 
 
-        const normalCard =
-            document.createElement("div");
-
-
-        normalCard.className =
-            "cake-card";
-
-
-        /* TABLE HEADER */
-
-        const normalHeader =
-            document.createElement("div");
-
-
-        normalHeader.className =
-            "cake-header";
-
-
-        normalHeader.innerHTML = `
-
-            <div class="cake-name-header">
-                FLAVOUR
-            </div>
-
-            <div>
-                TYPE
-            </div>
-
-            <div>
-                STATUS
-            </div>
-
-            <div>
-                PRICE
-            </div>
-
-        `;
-
-
-        normalCard.appendChild(
-            normalHeader
-        );
-
-
-        /* FLAVOUR ROWS */
-
-        normalFlavours.forEach(
-            flavour => {
-
-                const row =
-                    document.createElement("div");
-
-
-                row.className =
-                    "cake-row";
-
-
-                row.innerHTML = `
-
-                    <div class="cake-name">
-                        ${flavour.name}
-                    </div>
-
-                    <div>
-                        NORMAL
-                    </div>
-
-                    <div>
-                        AVAILABLE
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
-                `;
-
-
-                normalCard.appendChild(
-                    row
-                );
-
-            }
-        );
-
-
-        /* NO NORMAL FLAVOURS */
-
-        if (
-            normalFlavours.length === 0
-        ) {
-
-            const row =
-                document.createElement("div");
-
-
-            row.className =
-                "cake-row";
-
-
-            row.innerHTML = `
-
-                <div class="cake-name">
-                    No normal flavours available.
-                </div>
-
-                <div>
-                    NORMAL
-                </div>
-
-                <div>
-                    —
-                </div>
-
-                <div>
-                    —
-                </div>
-
-            `;
-
-
-            normalCard.appendChild(
-                row
-            );
-
-        }
-
-
         normalContainer.appendChild(
-            normalCard
+            createFlavourCard(
+                normalFlavours,
+                "NORMAL"
+            )
         );
-
 
 
         /* =====================================
-           DISPLAY PREMIUM FLAVOURS
+           DISPLAY PREMIUM
         ===================================== */
 
         premiumContainer.innerHTML = "";
 
 
-        const premiumCard =
-            document.createElement("div");
-
-
-        premiumCard.className =
-            "cake-card";
-
-
-        /* TABLE HEADER */
-
-        const premiumHeader =
-            document.createElement("div");
-
-
-        premiumHeader.className =
-            "cake-header";
-
-
-        premiumHeader.innerHTML = `
-
-            <div class="cake-name-header">
-                FLAVOUR
-            </div>
-
-            <div>
-                TYPE
-            </div>
-
-            <div>
-                STATUS
-            </div>
-
-            <div>
-                PRICE
-            </div>
-
-        `;
-
-
-        premiumCard.appendChild(
-            premiumHeader
-        );
-
-
-        /* PREMIUM FLAVOUR ROWS */
-
-        premiumFlavours.forEach(
-            flavour => {
-
-                const row =
-                    document.createElement("div");
-
-
-                row.className =
-                    "cake-row";
-
-
-                row.innerHTML = `
-
-                    <div class="cake-name">
-                        ${flavour.name}
-                    </div>
-
-                    <div>
-                        PREMIUM
-                    </div>
-
-                    <div>
-                        AVAILABLE
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
-                `;
-
-
-                premiumCard.appendChild(
-                    row
-                );
-
-            }
-        );
-
-
-        /* NO PREMIUM FLAVOURS */
-
-        if (
-            premiumFlavours.length === 0
-        ) {
-
-            const row =
-                document.createElement("div");
-
-
-            row.className =
-                "cake-row";
-
-
-            row.innerHTML = `
-
-                <div class="cake-name">
-                    No premium flavours available.
-                </div>
-
-                <div>
-                    PREMIUM
-                </div>
-
-                <div>
-                    —
-                </div>
-
-                <div>
-                    —
-                </div>
-
-            `;
-
-
-            premiumCard.appendChild(
-                row
-            );
-
-        }
-
-
         premiumContainer.appendChild(
-            premiumCard
+            createFlavourCard(
+                premiumFlavours,
+                "PREMIUM"
+            )
         );
 
 
@@ -1597,10 +1625,6 @@ async function loadIceCreamFlavours() {
             error
         );
 
-
-        /* =====================================
-           NORMAL ERROR
-        ===================================== */
 
         normalContainer.innerHTML = `
 
@@ -1617,11 +1641,11 @@ async function loadIceCreamFlavours() {
                     </div>
 
                     <div>
-                        STATUS
+                        WEIGHT
                     </div>
 
                     <div>
-                        PRICE
+                        ORDER
                     </div>
 
                 </div>
@@ -1652,10 +1676,6 @@ async function loadIceCreamFlavours() {
         `;
 
 
-        /* =====================================
-           PREMIUM ERROR
-        ===================================== */
-
         premiumContainer.innerHTML = `
 
             <div class="cake-card">
@@ -1671,11 +1691,11 @@ async function loadIceCreamFlavours() {
                     </div>
 
                     <div>
-                        STATUS
+                        WEIGHT
                     </div>
 
                     <div>
-                        PRICE
+                        ORDER
                     </div>
 
                 </div>
@@ -1711,6 +1731,137 @@ async function loadIceCreamFlavours() {
 
 
 /* =========================================
+   ADD FLAVOUR TO ORDER
+========================================= */
+
+function addFlavourToOrder(
+    id,
+    name,
+    category
+) {
+
+    /*
+     * Find the button that was clicked
+     */
+
+    const buttons =
+        document.querySelectorAll(
+            ".flavour-order-btn"
+        );
+
+
+    let clickedButton = null;
+
+
+    buttons.forEach(button => {
+
+        if (
+            button.getAttribute("onclick") &&
+            button.getAttribute("onclick")
+                .includes(`addFlavourToOrder(${id},`)
+        ) {
+
+            clickedButton = button;
+
+        }
+
+    });
+
+
+    if (!clickedButton) {
+
+        console.error(
+            "Order button not found."
+        );
+
+        return;
+
+    }
+
+
+    const row =
+        clickedButton.closest(".cake-row");
+
+
+    if (!row) {
+
+        return;
+
+    }
+
+
+    const weightInput =
+        row.querySelector(".flavour-weight");
+
+
+    if (!weightInput) {
+
+        return;
+
+    }
+
+
+    const weight =
+        Number(weightInput.value);
+
+
+    /* =====================================
+       VALIDATE WEIGHT
+    ===================================== */
+
+    if (
+        !Number.isInteger(weight) ||
+        weight < 1 ||
+        weight > 1000
+    ) {
+
+        alert(
+            "Please enter a weight between 1g and 1000g."
+        );
+
+        weightInput.focus();
+
+        return;
+
+    }
+
+
+    /* =====================================
+       TEMPORARY ORDER OBJECT
+       PRICE WILL BE ADDED NEXT
+    ===================================== */
+
+    const orderItem = {
+
+        id: id,
+
+        name: name,
+
+        category: category,
+
+        weight: weight,
+
+        weightUnit: "g",
+
+        quantity: 1
+
+    };
+
+
+    console.log(
+        "Ice cream added to order:",
+        orderItem
+    );
+
+
+    alert(
+        `${name} - ${weight}g added to order.`
+    );
+
+}
+
+
+/* =========================================
    LOAD WHEN MENU OPENS
 ========================================= */
 
@@ -1729,10 +1880,3 @@ setInterval(
     },
     10000
 );
-
-</script>
-
-
-</body>
-
-</html>

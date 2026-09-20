@@ -1076,3 +1076,11 @@ footer small {
     }
 
 }
+
+.flavour-price {
+    color: #087fc1;
+    font-size: 13px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 5px;
+}
