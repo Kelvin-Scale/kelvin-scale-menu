@@ -1241,7 +1241,6 @@
 const FLAVOUR_API =
     "https://kelvin-scale-backend.onrender.com/api/flavours/available";
 
-
 /* =========================================
    LOAD ICE CREAM FLAVOURS
 ========================================= */
@@ -1254,7 +1253,6 @@ async function loadIceCreamFlavours() {
     const premiumContainer =
         document.getElementById("premiumFlavours");
 
-
     if (!normalContainer || !premiumContainer) {
 
         console.error(
@@ -1262,15 +1260,12 @@ async function loadIceCreamFlavours() {
         );
 
         return;
-
     }
-
 
     try {
 
         const response =
             await fetch(FLAVOUR_API);
-
 
         if (!response.ok) {
 
@@ -1280,13 +1275,16 @@ async function loadIceCreamFlavours() {
 
         }
 
-
         const flavours =
             await response.json();
 
+        console.log(
+            "Flavours loaded:",
+            flavours
+        );
 
         /* =====================================
-           FILTER NORMAL FLAVOURS
+           AVAILABLE NORMAL
         ===================================== */
 
         const normalFlavours =
@@ -1296,9 +1294,8 @@ async function loadIceCreamFlavours() {
                     flavour.available === true
             );
 
-
         /* =====================================
-           FILTER PREMIUM FLAVOURS
+           AVAILABLE PREMIUM
         ===================================== */
 
         const premiumFlavours =
@@ -1308,313 +1305,145 @@ async function loadIceCreamFlavours() {
                     flavour.available === true
             );
 
-
         /* =====================================
-           CREATE FLAVOUR CARD
-        ===================================== */
-
-        function createFlavourCard(
-            flavourList,
-            categoryName
-        ) {
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "cake-card";
-
-
-            /* =================================
-               HEADER
-            ================================= */
-
-            const header =
-                document.createElement("div");
-
-
-            header.className =
-                "cake-header";
-
-
-            header.innerHTML = `
-
-                <div class="cake-name-header">
-                    FLAVOUR
-                </div>
-
-                <div>
-                    TYPE
-                </div>
-
-                <div>
-                    WEIGHT
-                </div>
-
-                <div>
-                    ORDER
-                </div>
-
-            `;
-
-
-            card.appendChild(header);
-
-
-            /* =================================
-               FLAVOUR ROWS
-            ================================= */
-
-           flavourList.forEach(flavour => {
-
-    const row = document.createElement("div");
-
-    row.className = "cake-row";
-
-    const rate =
-        categoryName === "PREMIUM"
-            ? 1.42
-            : 1.14;
-
-    row.innerHTML = `
-
-        <div class="cake-name">
-            ${flavour.name}
-        </div>
-
-        <div>
-            ${categoryName}
-        </div>
-
-        <div>
-
-            <div class="weight-input-wrapper">
-
-                <input
-                    type="number"
-                    class="flavour-weight"
-                    min="1"
-                    max="1000"
-                    step="1"
-                    value="100"
-                    aria-label="Weight in grams"
-                >
-
-                <span>g</span>
-
-            </div>
-
-        </div>
-
-        <div>
-
-            <div class="flavour-price">
-                ₹${(100 * rate).toFixed(2)}
-            </div>
-
-            <button
-                type="button"
-                class="flavour-order-btn"
-            >
-                ADD
-            </button>
-
-        </div>
-
-    `;
-
-
-    const weightInput =
-        row.querySelector(".flavour-weight");
-
-    const priceDisplay =
-        row.querySelector(".flavour-price");
-
-
-    /* ================================
-       LIVE PRICE CALCULATION
-    ================================= */
-
-    weightInput.addEventListener(
-        "input",
-        () => {
-
-            let weight =
-                Number(weightInput.value);
-
-            if (weight < 1) {
-                weight = 1;
-            }
-
-            if (weight > 1000) {
-                weight = 1000;
-            }
-
-            weightInput.value = weight;
-
-            const price =
-                weight * rate;
-
-            priceDisplay.textContent =
-                `₹${price.toFixed(2)}`;
-
-        }
-    );
-
-
-    /* ================================
-       ADD TO CART
-    ================================= */
-
-    const orderButton =
-        row.querySelector(".flavour-order-btn");
-
-
-    orderButton.addEventListener(
-        "click",
-        () => {
-
-            const weight =
-                Number(weightInput.value);
-
-
-            if (
-                !Number.isInteger(weight) ||
-                weight < 1 ||
-                weight > 1000
-            ) {
-
-                alert(
-                    "Please enter a weight between 1g and 1000g."
-                );
-
-                weightInput.focus();
-
-                return;
-
-            }
-
-
-            const price =
-                weight * rate;
-
-
-            const orderItem = {
-
-                id: flavour.id,
-
-                name: flavour.name,
-
-                category: categoryName,
-
-                weight: weight,
-
-                unit: "g",
-
-                rate: rate,
-
-                price: Number(
-                    price.toFixed(2)
-                )
-
-            };
-
-
-            console.log(
-                "Order item:",
-                orderItem
-            );
-
-
-            alert(
-                `${flavour.name}\n` +
-                `${weight}g\n` +
-                `₹${price.toFixed(2)}`
-            );
-
-        }
-    );
-
-
-    card.appendChild(row);
-
-});
-
-
-            /* =================================
-               NO FLAVOURS
-            ================================= */
-
-            if (flavourList.length === 0) {
-
-                const row =
-                    document.createElement("div");
-
-
-                row.className =
-                    "cake-row";
-
-
-                row.innerHTML = `
-
-                    <div class="cake-name">
-                        No ${categoryName.toLowerCase()}
-                        flavours available.
-                    </div>
-
-                    <div>
-                        ${categoryName}
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
-                `;
-
-
-                card.appendChild(row);
-
-            }
-
-
-            return card;
-
-        }
-
-
-        /* =====================================
-           DISPLAY NORMAL
+           NORMAL TABLE
         ===================================== */
 
         normalContainer.innerHTML = "";
 
+        const normalTable =
+            document.createElement("div");
+
+        normalTable.className =
+            "flavour-table";
+
+        normalTable.innerHTML = `
+            
+            <div class="flavour-table-header">
+
+                <div>
+                    NORMAL ICE CREAM
+                </div>
+
+                <div>
+                    PRICE / GM
+                </div>
+
+            </div>
+
+        `;
+
+        normalFlavours.forEach(
+            flavour => {
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "flavour-row";
+
+                row.innerHTML = `
+
+                    <div class="flavour-name">
+                        ${flavour.name}
+                    </div>
+
+                    <div class="flavour-price">
+                        ₹1.14 / GM
+                    </div>
+
+                `;
+
+                normalTable.appendChild(row);
+
+            }
+        );
+
+        if (normalFlavours.length === 0) {
+
+            normalTable.innerHTML += `
+
+                <div class="flavour-empty">
+                    No normal flavours available.
+                </div>
+
+            `;
+
+        }
 
         normalContainer.appendChild(
-            createFlavourCard(
-                normalFlavours,
-                "NORMAL"
-            )
+            normalTable
         );
 
 
         /* =====================================
-           DISPLAY PREMIUM
+           PREMIUM TABLE
         ===================================== */
 
         premiumContainer.innerHTML = "";
 
+        const premiumTable =
+            document.createElement("div");
+
+        premiumTable.className =
+            "flavour-table";
+
+        premiumTable.innerHTML = `
+
+            <div class="flavour-table-header">
+
+                <div>
+                    PREMIUM ICE CREAM
+                </div>
+
+                <div>
+                    PRICE / GM
+                </div>
+
+            </div>
+
+        `;
+
+        premiumFlavours.forEach(
+            flavour => {
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "flavour-row";
+
+                row.innerHTML = `
+
+                    <div class="flavour-name">
+                        ${flavour.name}
+                    </div>
+
+                    <div class="flavour-price">
+                        ₹1.42 / GM
+                    </div>
+
+                `;
+
+                premiumTable.appendChild(row);
+
+            }
+        );
+
+        if (premiumFlavours.length === 0) {
+
+            premiumTable.innerHTML += `
+
+                <div class="flavour-empty">
+                    No premium flavours available.
+                </div>
+
+            `;
+
+        }
 
         premiumContainer.appendChild(
-            createFlavourCard(
-                premiumFlavours,
-                "PREMIUM"
-            )
+            premiumTable
         );
 
 
@@ -1625,100 +1454,24 @@ async function loadIceCreamFlavours() {
             error
         );
 
-
         normalContainer.innerHTML = `
 
-            <div class="cake-card">
+            <div class="flavour-table">
 
-                <div class="cake-header">
-
-                    <div class="cake-name-header">
-                        FLAVOUR
-                    </div>
-
-                    <div>
-                        TYPE
-                    </div>
-
-                    <div>
-                        WEIGHT
-                    </div>
-
-                    <div>
-                        ORDER
-                    </div>
-
-                </div>
-
-
-                <div class="cake-row">
-
-                    <div class="cake-name">
-                        Flavours unavailable.
-                    </div>
-
-                    <div>
-                        NORMAL
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
+                <div class="flavour-empty">
+                    Normal flavours unavailable.
                 </div>
 
             </div>
 
         `;
-
 
         premiumContainer.innerHTML = `
 
-            <div class="cake-card">
+            <div class="flavour-table">
 
-                <div class="cake-header">
-
-                    <div class="cake-name-header">
-                        FLAVOUR
-                    </div>
-
-                    <div>
-                        TYPE
-                    </div>
-
-                    <div>
-                        WEIGHT
-                    </div>
-
-                    <div>
-                        ORDER
-                    </div>
-
-                </div>
-
-
-                <div class="cake-row">
-
-                    <div class="cake-name">
-                        Flavours unavailable.
-                    </div>
-
-                    <div>
-                        PREMIUM
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
-                    <div>
-                        —
-                    </div>
-
+                <div class="flavour-empty">
+                    Premium flavours unavailable.
                 </div>
 
             </div>
@@ -1731,152 +1484,146 @@ async function loadIceCreamFlavours() {
 
 
 /* =========================================
-   ADD FLAVOUR TO ORDER
-========================================= */
-
-function addFlavourToOrder(
-    id,
-    name,
-    category
-) {
-
-    /*
-     * Find the button that was clicked
-     */
-
-    const buttons =
-        document.querySelectorAll(
-            ".flavour-order-btn"
-        );
-
-
-    let clickedButton = null;
-
-
-    buttons.forEach(button => {
-
-        if (
-            button.getAttribute("onclick") &&
-            button.getAttribute("onclick")
-                .includes(`addFlavourToOrder(${id},`)
-        ) {
-
-            clickedButton = button;
-
-        }
-
-    });
-
-
-    if (!clickedButton) {
-
-        console.error(
-            "Order button not found."
-        );
-
-        return;
-
-    }
-
-
-    const row =
-        clickedButton.closest(".cake-row");
-
-
-    if (!row) {
-
-        return;
-
-    }
-
-
-    const weightInput =
-        row.querySelector(".flavour-weight");
-
-
-    if (!weightInput) {
-
-        return;
-
-    }
-
-
-    const weight =
-        Number(weightInput.value);
-
-
-    /* =====================================
-       VALIDATE WEIGHT
-    ===================================== */
-
-    if (
-        !Number.isInteger(weight) ||
-        weight < 1 ||
-        weight > 1000
-    ) {
-
-        alert(
-            "Please enter a weight between 1g and 1000g."
-        );
-
-        weightInput.focus();
-
-        return;
-
-    }
-
-
-    /* =====================================
-       TEMPORARY ORDER OBJECT
-       PRICE WILL BE ADDED NEXT
-    ===================================== */
-
-    const orderItem = {
-
-        id: id,
-
-        name: name,
-
-        category: category,
-
-        weight: weight,
-
-        weightUnit: "g",
-
-        quantity: 1
-
-    };
-
-
-    console.log(
-        "Ice cream added to order:",
-        orderItem
-    );
-
-
-    alert(
-        `${name} - ${weight}g added to order.`
-    );
-
-}
-
-
-/* =========================================
-   LOAD WHEN MENU OPENS
+   LOAD FLAVOURS
 ========================================= */
 
 loadIceCreamFlavours();
 
 
 /* =========================================
-   CHECK ADMIN CHANGES EVERY 10 SECONDS
+   REFRESH EVERY 10 SECONDS
 ========================================= */
 
 setInterval(
     () => {
-
         loadIceCreamFlavours();
-
     },
     10000
 );
+/* =========================================
+   ICE CREAM FLAVOURS - FINAL DESIGN
+========================================= */
+
+#iceCreamFlavours {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.flavour-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.flavour-table {
+    background: #ffffff;
+    border: 1px solid #dfedf4;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(7, 91, 139, 0.07);
+}
+
+.flavour-table-header {
+    display: grid;
+    grid-template-columns: 1.8fr 0.8fr;
+    align-items: center;
+
+    background: linear-gradient(135deg, #087fc1, #07598c);
+    color: white;
+
+    padding: 14px 16px;
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.flavour-row {
+    display: grid;
+    grid-template-columns: 1.8fr 0.8fr;
+    align-items: center;
+
+    padding: 14px 16px;
+
+    border-bottom: 1px solid #e7f1f5;
+
+    background: white;
+
+    transition: 0.2s ease;
+}
+
+.flavour-row:last-child {
+    border-bottom: none;
+}
+
+.flavour-row:hover {
+    background: #f4fbfe;
+    transform: translateX(2px);
+}
+
+.flavour-name {
+    color: #193f60;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.flavour-price {
+    text-align: right;
+    color: #087fc1;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.flavour-type {
+    padding: 4px 8px;
+    background: #e8f7fd;
+    color: #0875ad;
+    border-radius: 20px;
+    font-size: 8px;
+    font-weight: 800;
+    width: fit-content;
+}
+
+.flavour-empty {
+    padding: 20px;
+    text-align: center;
+    color: #7890a0;
+    font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    #iceCreamFlavours {
+        margin-top: 60px;
+        margin-bottom: 60px;
+    }
+
+    .flavour-container {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .flavour-table-header {
+        grid-template-columns: 1.8fr 0.8fr;
+        padding: 12px 14px;
+        font-size: 9px;
+    }
+
+    .flavour-row {
+        grid-template-columns: 1.8fr 0.8fr;
+        padding: 13px 14px;
+    }
+
+    .flavour-name {
+        font-size: 13px;
+    }
+
+    .flavour-price {
+        font-size: 13px;
+    }
+}
