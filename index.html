@@ -1238,8 +1238,13 @@
 
 <script>
 
+/* =========================================
+   KELVIN SCALE - ICE CREAM FLAVOURS
+   ========================================= */
+
 const FLAVOUR_API =
-    "https://kelvin-scale-backend.onrender.com/api/flavours/available";
+    "https://kelvin-scale-backend.onrender.com/api/flavours";
+
 
 /* =========================================
    LOAD ICE CREAM FLAVOURS
@@ -1253,85 +1258,190 @@ async function loadIceCreamFlavours() {
     const premiumContainer =
         document.getElementById("premiumFlavours");
 
+
+    /* -----------------------------------------
+       CHECK CONTAINERS
+    ----------------------------------------- */
+
     if (!normalContainer || !premiumContainer) {
 
         console.error(
-            "Flavour containers not found."
+            "❌ normalFlavours or premiumFlavours container not found."
         );
 
         return;
     }
 
+
     try {
 
+        console.log("🔄 Loading Kelvin Scale flavours...");
+
+
+        /* -----------------------------------------
+           FETCH BACKEND
+        ----------------------------------------- */
+
         const response =
-            await fetch(FLAVOUR_API);
+            await fetch(
+                FLAVOUR_API,
+                {
+                    method: "GET",
+                    cache: "no-cache"
+                }
+            );
+
 
         if (!response.ok) {
 
             throw new Error(
-                "Failed to load flavours"
+                "API Error: " + response.status
             );
-
         }
+
 
         const flavours =
             await response.json();
 
+
         console.log(
-            "Flavours loaded:",
+            "✅ Flavours received:",
             flavours
         );
 
-        /* =====================================
-           AVAILABLE NORMAL
-        ===================================== */
+
+        /* -----------------------------------------
+           MAKE SURE DATA IS ARRAY
+        ----------------------------------------- */
+
+        if (!Array.isArray(flavours)) {
+
+            throw new Error(
+                "Backend did not return an array."
+            );
+        }
+
+
+        /* =========================================
+           NORMAL FLAVOURS
+        ========================================= */
 
         const normalFlavours =
             flavours.filter(
-                flavour =>
-                    flavour.category === "normal" &&
-                    flavour.available === true
+                flavour => {
+
+                    const category =
+                        String(
+                            flavour.category || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    const available =
+                        flavour.available === true ||
+                        flavour.available === "true" ||
+                        flavour.available === 1 ||
+                        flavour.available === "1";
+
+
+                    return (
+                        category === "normal" &&
+                        available
+                    );
+                }
             );
 
-        /* =====================================
-           AVAILABLE PREMIUM
-        ===================================== */
+
+        /* =========================================
+           PREMIUM FLAVOURS
+        ========================================= */
 
         const premiumFlavours =
             flavours.filter(
-                flavour =>
-                    flavour.category === "premium" &&
-                    flavour.available === true
+                flavour => {
+
+                    const category =
+                        String(
+                            flavour.category || ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    const available =
+                        flavour.available === true ||
+                        flavour.available === "true" ||
+                        flavour.available === 1 ||
+                        flavour.available === "1";
+
+
+                    return (
+                        category === "premium" &&
+                        available
+                    );
+                }
             );
 
-        /* =====================================
-           NORMAL TABLE
-        ===================================== */
+
+        console.log(
+            "🍦 Normal flavours:",
+            normalFlavours
+        );
+
+        console.log(
+            "⭐ Premium flavours:",
+            premiumFlavours
+        );
+
+
+        /* =========================================
+           DISPLAY NORMAL FLAVOURS
+        ========================================= */
 
         normalContainer.innerHTML = "";
 
-        const normalTable =
+
+        const normalCard =
             document.createElement("div");
 
-        normalTable.className =
-            "flavour-table";
 
-        normalTable.innerHTML = `
-            
-            <div class="flavour-table-header">
+        normalCard.className =
+            "cake-card flavour-table";
+
+
+        /* -----------------------------------------
+           NORMAL HEADER
+        ----------------------------------------- */
+
+        normalCard.innerHTML = `
+
+            <div class="cake-header">
+
+                <div class="cake-name-header">
+                    FLAVOUR
+                </div>
 
                 <div>
-                    NORMAL ICE CREAM
+                    TYPE
                 </div>
 
                 <div>
                     PRICE / GM
                 </div>
 
+                <div>
+                    STATUS
+                </div>
+
             </div>
 
         `;
+
+
+        /* -----------------------------------------
+           NORMAL FLAVOUR ROWS
+        ----------------------------------------- */
 
         normalFlavours.forEach(
             flavour => {
@@ -1339,70 +1449,135 @@ async function loadIceCreamFlavours() {
                 const row =
                     document.createElement("div");
 
+
                 row.className =
-                    "flavour-row";
+                    "cake-row";
+
 
                 row.innerHTML = `
 
-                    <div class="flavour-name">
-                        ${flavour.name}
+                    <div class="cake-name">
+                        ${escapeHTML(flavour.name)}
                     </div>
 
-                    <div class="flavour-price">
-                        ₹1.14 / GM
+                    <div>
+                        NORMAL
+                    </div>
+
+                    <div>
+                        ₹1.14
+                    </div>
+
+                    <div>
+                        AVAILABLE
                     </div>
 
                 `;
 
-                normalTable.appendChild(row);
+
+                normalCard.appendChild(
+                    row
+                );
 
             }
         );
 
-        if (normalFlavours.length === 0) {
 
-            normalTable.innerHTML += `
+        /* -----------------------------------------
+           NO NORMAL FLAVOURS
+        ----------------------------------------- */
 
-                <div class="flavour-empty">
+        if (
+            normalFlavours.length === 0
+        ) {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "cake-row";
+
+
+            row.innerHTML = `
+
+                <div class="cake-name">
                     No normal flavours available.
+                </div>
+
+                <div>
+                    NORMAL
+                </div>
+
+                <div>
+                    ₹1.14
+                </div>
+
+                <div>
+                    —
                 </div>
 
             `;
 
+
+            normalCard.appendChild(
+                row
+            );
         }
 
+
         normalContainer.appendChild(
-            normalTable
+            normalCard
         );
 
 
-        /* =====================================
-           PREMIUM TABLE
-        ===================================== */
+        /* =========================================
+           DISPLAY PREMIUM FLAVOURS
+        ========================================= */
 
         premiumContainer.innerHTML = "";
 
-        const premiumTable =
+
+        const premiumCard =
             document.createElement("div");
 
-        premiumTable.className =
-            "flavour-table";
 
-        premiumTable.innerHTML = `
+        premiumCard.className =
+            "cake-card flavour-table";
 
-            <div class="flavour-table-header">
+
+        /* -----------------------------------------
+           PREMIUM HEADER
+        ----------------------------------------- */
+
+        premiumCard.innerHTML = `
+
+            <div class="cake-header">
+
+                <div class="cake-name-header">
+                    FLAVOUR
+                </div>
 
                 <div>
-                    PREMIUM ICE CREAM
+                    TYPE
                 </div>
 
                 <div>
                     PRICE / GM
                 </div>
 
+                <div>
+                    STATUS
+                </div>
+
             </div>
 
         `;
+
+
+        /* -----------------------------------------
+           PREMIUM FLAVOUR ROWS
+        ----------------------------------------- */
 
         premiumFlavours.forEach(
             flavour => {
@@ -1410,68 +1585,202 @@ async function loadIceCreamFlavours() {
                 const row =
                     document.createElement("div");
 
+
                 row.className =
-                    "flavour-row";
+                    "cake-row";
+
 
                 row.innerHTML = `
 
-                    <div class="flavour-name">
-                        ${flavour.name}
+                    <div class="cake-name">
+                        ${escapeHTML(flavour.name)}
                     </div>
 
-                    <div class="flavour-price">
-                        ₹1.42 / GM
+                    <div>
+                        PREMIUM
+                    </div>
+
+                    <div>
+                        ₹1.42
+                    </div>
+
+                    <div>
+                        AVAILABLE
                     </div>
 
                 `;
 
-                premiumTable.appendChild(row);
+
+                premiumCard.appendChild(
+                    row
+                );
 
             }
         );
 
-        if (premiumFlavours.length === 0) {
 
-            premiumTable.innerHTML += `
+        /* -----------------------------------------
+           NO PREMIUM FLAVOURS
+        ----------------------------------------- */
 
-                <div class="flavour-empty">
+        if (
+            premiumFlavours.length === 0
+        ) {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "cake-row";
+
+
+            row.innerHTML = `
+
+                <div class="cake-name">
                     No premium flavours available.
+                </div>
+
+                <div>
+                    PREMIUM
+                </div>
+
+                <div>
+                    ₹1.42
+                </div>
+
+                <div>
+                    —
                 </div>
 
             `;
 
+
+            premiumCard.appendChild(
+                row
+            );
         }
 
+
         premiumContainer.appendChild(
-            premiumTable
+            premiumCard
         );
 
 
-    } catch (error) {
+        console.log(
+            "✅ Kelvin Scale flavours displayed successfully."
+        );
+
+    }
+
+
+    catch (error) {
 
         console.error(
-            "Flavour loading error:",
+            "❌ Flavour loading error:",
             error
         );
 
+
+        /* =========================================
+           NORMAL ERROR
+        ========================================= */
+
         normalContainer.innerHTML = `
 
-            <div class="flavour-table">
+            <div class="cake-card flavour-table">
 
-                <div class="flavour-empty">
-                    Normal flavours unavailable.
+                <div class="cake-header">
+
+                    <div class="cake-name-header">
+                        FLAVOUR
+                    </div>
+
+                    <div>
+                        TYPE
+                    </div>
+
+                    <div>
+                        PRICE / GM
+                    </div>
+
+                    <div>
+                        STATUS
+                    </div>
+
+                </div>
+
+                <div class="cake-row">
+
+                    <div class="cake-name">
+                        Unable to load flavours.
+                    </div>
+
+                    <div>
+                        NORMAL
+                    </div>
+
+                    <div>
+                        ₹1.14
+                    </div>
+
+                    <div>
+                        ERROR
+                    </div>
+
                 </div>
 
             </div>
 
         `;
 
+
+        /* =========================================
+           PREMIUM ERROR
+        ========================================= */
+
         premiumContainer.innerHTML = `
 
-            <div class="flavour-table">
+            <div class="cake-card flavour-table">
 
-                <div class="flavour-empty">
-                    Premium flavours unavailable.
+                <div class="cake-header">
+
+                    <div class="cake-name-header">
+                        FLAVOUR
+                    </div>
+
+                    <div>
+                        TYPE
+                    </div>
+
+                    <div>
+                        PRICE / GM
+                    </div>
+
+                    <div>
+                        STATUS
+                    </div>
+
+                </div>
+
+                <div class="cake-row">
+
+                    <div class="cake-name">
+                        Unable to load flavours.
+                    </div>
+
+                    <div>
+                        PREMIUM
+                    </div>
+
+                    <div>
+                        ₹1.42
+                    </div>
+
+                    <div>
+                        ERROR
+                    </div>
+
                 </div>
 
             </div>
@@ -1484,146 +1793,41 @@ async function loadIceCreamFlavours() {
 
 
 /* =========================================
-   LOAD FLAVOURS
+   SAFE HTML FUNCTION
+========================================= */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================
+   LOAD FLAVOURS WHEN PAGE OPENS
 ========================================= */
 
 loadIceCreamFlavours();
 
 
 /* =========================================
-   REFRESH EVERY 10 SECONDS
+   AUTO REFRESH
+   Checks admin changes every 10 seconds
 ========================================= */
 
 setInterval(
-    () => {
+    function () {
+
         loadIceCreamFlavours();
+
     },
     10000
 );
-/* =========================================
-   ICE CREAM FLAVOURS - FINAL DESIGN
-========================================= */
 
-#iceCreamFlavours {
-    margin-top: 80px;
-    margin-bottom: 80px;
-}
+</script>
 
-.flavour-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    align-items: start;
-}
 
-.flavour-table {
-    background: #ffffff;
-    border: 1px solid #dfedf4;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(7, 91, 139, 0.07);
-}
-
-.flavour-table-header {
-    display: grid;
-    grid-template-columns: 1.8fr 0.8fr;
-    align-items: center;
-
-    background: linear-gradient(135deg, #087fc1, #07598c);
-    color: white;
-
-    padding: 14px 16px;
-
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.flavour-row {
-    display: grid;
-    grid-template-columns: 1.8fr 0.8fr;
-    align-items: center;
-
-    padding: 14px 16px;
-
-    border-bottom: 1px solid #e7f1f5;
-
-    background: white;
-
-    transition: 0.2s ease;
-}
-
-.flavour-row:last-child {
-    border-bottom: none;
-}
-
-.flavour-row:hover {
-    background: #f4fbfe;
-    transform: translateX(2px);
-}
-
-.flavour-name {
-    color: #193f60;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.3;
-}
-
-.flavour-price {
-    text-align: right;
-    color: #087fc1;
-    font-size: 14px;
-    font-weight: 800;
-}
-
-.flavour-type {
-    padding: 4px 8px;
-    background: #e8f7fd;
-    color: #0875ad;
-    border-radius: 20px;
-    font-size: 8px;
-    font-weight: 800;
-    width: fit-content;
-}
-
-.flavour-empty {
-    padding: 20px;
-    text-align: center;
-    color: #7890a0;
-    font-size: 13px;
-}
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-
-    #iceCreamFlavours {
-        margin-top: 60px;
-        margin-bottom: 60px;
-    }
-
-    .flavour-container {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .flavour-table-header {
-        grid-template-columns: 1.8fr 0.8fr;
-        padding: 12px 14px;
-        font-size: 9px;
-    }
-
-    .flavour-row {
-        grid-template-columns: 1.8fr 0.8fr;
-        padding: 13px 14px;
-    }
-
-    .flavour-name {
-        font-size: 13px;
-    }
-
-    .flavour-price {
-        font-size: 13px;
-    }
-}
