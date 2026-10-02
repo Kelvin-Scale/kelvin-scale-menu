@@ -1084,3 +1084,29 @@ footer small {
     text-align: center;
     margin-bottom: 5px;
 }
+
+/* Instagram Contact */
+.instagram-contact {
+    text-align: center;
+    margin: 25px auto;
+    padding: 18px;
+}
+
+.instagram-contact p {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #173b61;
+}
+
+.instagram-contact a {
+    display: inline-block;
+    text-decoration: none;
+    color: #173b61;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.instagram-contact a:hover {
+    text-decoration: underline;
+}
